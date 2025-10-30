@@ -60,6 +60,8 @@ resource "google_container_node_pool" "primary_nodes" {
 
   node_config {
     machine_type = var.gke_machine_type
+    disk_type     = "pd-ssd"
+    disk_size_gb  = 25
     oauth_scopes = [
       "https://www.googleapis.com/auth/cloud-platform"
     ]
