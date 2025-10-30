@@ -35,17 +35,18 @@ resource "google_container_cluster" "gke_cluster" {
   location = var.region  # regional cluster
 
   remove_default_node_pool = true
-  initial_node_count = 1
+  initial_node_count       = 1
 
-  # basic auth disabled, use IAM/GKE auth
+  # ✅ Disable client certificates for security (replaces old username/password)
   master_auth {
-    username = "" # disable basic auth
-    password = ""
+    client_certificate_config {
+      issue_client_certificate = false
+    }
   }
 
-  ip_allocation_policy { } # enable VPC-native (recommended)
+  ip_allocation_policy {} # enables VPC-native networking
 
-  # network & subnetwork can be default for simplicity
+  # You can leave networking defaults for now
 }
 
 # Node pool
