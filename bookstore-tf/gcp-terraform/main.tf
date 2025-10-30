@@ -56,16 +56,21 @@ resource "google_container_node_pool" "primary_nodes" {
   project    = var.project_id
   location   = var.region
 
-  node_count = var.gke_node_count
+  node_count = var.gke_node_count  # total nodes per zone?
+
+  node_locations = [
+    "${var.region}-a",
+    "${var.region}-b",
+    "${var.region}-c"
+  ]
 
   node_config {
     machine_type = var.gke_machine_type
-    disk_type     = "pd-ssd"
-    disk_size_gb  = 25
+    disk_type    = "pd-ssd"
+    disk_size_gb = 25
     oauth_scopes = [
       "https://www.googleapis.com/auth/cloud-platform"
     ]
-    # You could set labels, taints, and metadata if required
   }
 
   management {
@@ -73,6 +78,7 @@ resource "google_container_node_pool" "primary_nodes" {
     auto_upgrade = true
   }
 }
+
 
 # 4) Service account for GitHub Actions
 resource "google_service_account" "gha" {
