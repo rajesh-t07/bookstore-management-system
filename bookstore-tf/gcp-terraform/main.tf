@@ -47,6 +47,12 @@ resource "google_container_cluster" "gke_cluster" {
   ip_allocation_policy {} # enables VPC-native networking
 
   # You can leave networking defaults for now
+
+  # Fix race condition: ensure APIs are enabled first
+  depends_on = [google_project_service.services]
+
+  # Allow Terraform to delete the cluster
+  deletion_protection = false
 }
 
 # Node pool
