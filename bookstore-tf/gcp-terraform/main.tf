@@ -50,9 +50,6 @@ resource "google_container_cluster" "gke_cluster" {
 
   # Fix race condition: ensure APIs are enabled first
   depends_on = [google_project_service.services]
-
-  # Allow Terraform to delete the cluster
-  deletion_protection = false
 }
 
 # Node pool
